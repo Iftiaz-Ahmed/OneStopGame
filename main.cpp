@@ -31,7 +31,23 @@ int main() {
 
     boardObj.startTurn(&playerObj);
     boardObj.move(3);
-    boardObj.move(3);
+    boardObj.move(9);
+    boardObj.move(2);
+    boardObj.stop();
+
+    boardObj.startTurn(&playerObj);
+    boardObj.move(2);
+    boardObj.move(5);
+    boardObj.move(4);
+    boardObj.stop();
+
+    boardObj.startTurn(&playerObj);
+    boardObj.move(2);
+    boardObj.move(5);
+    boardObj.move(4);
+    boardObj.stop();
+
+    cout << playerObj;
 
     cout <<boardObj;
     

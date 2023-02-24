@@ -1,7 +1,7 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 #include "tools.hpp" 
-#include "column.hpp"
+#include "column.hpp" 
 #include "player.hpp"
 
 class Board {

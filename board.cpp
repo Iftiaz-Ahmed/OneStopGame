@@ -21,34 +21,39 @@ Board::  //-----------------------------------------Destructor
 
 void Board::  //------------------------------------startTurn
 startTurn(Player* player) {
-    // not done yet
     currentPlayer = player;
+    towerCounter = 0;
 
     for (int m=0; m<3; m++) {
         inUseTowers[m] = 0;
-    }
-
-    for (int m=0; m<3; m++) {
-        if (inUseTowers[m] > 0)
-            towerCounter++;
     }
 }
 
 bool Board::  //------------------------------------move
 move(int column) {
+    if (column < 2) return false;
     bool flag = false;
 
-    if ( backBone[column]->state() == ColumnState::pending || backBone[column]->state() == ColumnState::captured && towerCounter == 0) {
+    for (int m : inUseTowers) {
+        if (m == column) {
+            flag = true;
+            break;
+        } 
+    }
+   
+    if ( backBone[column]->state() != ColumnState::available) {
         return false;
     }
 
-    flag = backBone[column]->startTower(currentPlayer);
-    
-    if (flag) {
-        backBone[column]->move();
-        return true;
-    } else {
+    if (flag || towerCounter == 3) {
         return false;
+    } else {
+        towerCounter++;
+        inUseTowers[towerCounter-1] = column;
+        backBone[column]->startTower(currentPlayer);
+        backBone[column]->move();
+
+        return true;
     }
 }
 
