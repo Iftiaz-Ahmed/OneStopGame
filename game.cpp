@@ -3,12 +3,12 @@ Program 4 - Game
 Iftiaz Ahmed Alfi and Anwar Haq
 
 22nd Feb, 2023
+Resubmitted: 15th March, 2023
 */ 
 
-#include "game.hpp"
+#include "game.hpp" 
 
-
-//-----------------------------------------------------------------------toLowerCase()
+//------------------------------toLowerCase()
 string toLowerCase(string &str) {
     string result;
     for (char c : str)
@@ -18,8 +18,8 @@ string toLowerCase(string &str) {
     return result;
 }
 
-//-----------------------------------------------------------------------validateColor()
-ECcolor validateColor() {
+//------------------------------validateColor()
+ECcolor validateColor(int* colorsUsed) {
     string color;
     ECcolor acceptedColor;
     map<string, ECcolor> colorMap{
@@ -29,73 +29,72 @@ ECcolor validateColor() {
         {"green", ECcolor::green},
         {"blue", ECcolor::blue}};
 
-    while (true)
-    {
+    while (true) {
         cout << "Color: ";
         cin >> color;
         string lowCaseColor = toLowerCase(color);
-        if (colorMap.count(lowCaseColor) > 0 && lowCaseColor != "white")
-        {
+        int colorInList = colorMap.count(lowCaseColor);
+        int index = (int)colorMap[lowCaseColor];
+
+        if (colorInList > 0 && colorsUsed[index] == 0) {
+            colorsUsed[index] = 1;
             acceptedColor = colorMap[lowCaseColor];
             break;
         }
-        else
-        {
-            cout << "Incorrect player color input, Try again!" << endl;
-        }
+        else cout <<color <<" not available. Try again!" << endl;
+   
     }
-
     return acceptedColor;
 }
 
-Player Game:: //-----------------------------------------------------------getNewPlayer()
+Player Game:: //-----------------getNewPlayer()
 getNewPlayer() {
     string name;
     ECcolor color;
-
-    cout << "Enter player information: " << endl;
+ 
+    cout << "Enter player information: " << endl; 
     cout << "Name: ";
     cin >> name;
-    color = validateColor();
+    color = validateColor(colorsUsed);
     cout << endl;
 
     return Player(name, color);
 }
 
-void Game:: //--------------------------------------------------------------playGame()
+void Game:: //-------------------playGame()
 playGame() {
-    //----------------------------------------------------------------------Point 1 & 2
-    cout <<"-----------------------------------------DiceSet" <<endl;
+    //---------------------------Point 1 & 2
+    cout <<"---------------------DiceSet" <<endl;
     diceSet->roll();
     diceSet->print(cout);
 
-    cout <<"-----------------------------------------Player Info" <<endl;
+    cout <<"---------------------Player Info" <<endl;
     cout << player1;
     cout << player2;
 
-    //----------------------------------------------------------------------Point 3
-    cout <<"-----------------------------------------Column7 startTower()" <<endl;
+    //------------------------------Point 3
+    cout <<"---------------------Column7 startTower()" <<endl;
     column7.startTower(&player1);
     column7.move();
     cout << column7 << endl;
 
-    //----------------------------------------------------------------------Point 4
-    cout <<"-----------------------------------------Column2 startTower()" <<endl;
+    //------------------------------Point 4
+    cout <<"---------------------Column2 startTower()" <<endl;
     column2.startTower(&player2);
     column2.move();
     cout << column2 << endl;
     column2.move();
     column2.move();
-    cout <<"-----------------------------------------Column2 after 3 move()" <<endl;
+    cout <<"---------------------Column2 after 3 move()" <<endl;
     cout << column2 << endl;
 
     column7.stop(&player1);
     column2.stop(&player2);
-    cout <<"-----------------------------------------Column2 & 7 after stop()" <<endl;
+    cout <<"---------------------Column2 & 7 after stop()" <<endl;
     cout << column7 << endl;
     cout << column2 << endl;
 
-    cout <<"-----------------------------------------Player Info after capture" <<endl;
+    cout <<"---------------------Player Info after capture" <<endl;
     cout << player1;
     cout << player2;
 }

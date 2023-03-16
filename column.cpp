@@ -3,51 +3,21 @@ Program 4 - Game
 Iftiaz Ahmed Alfi and Anwar Haq
 
 22nd Feb, 2023
+Resubmitted: 15th March, 2023
 */ 
 
 #include "column.hpp"
 
 int Column::columnLengths[13] = {0, 0, 3, 5, 7, 9, 11, 13, 11, 9, 7, 5, 3};
 
-Column::  //------------------------------------------------------ Constructor of Column
-Column(int colNum) {
-    columnNo = colNum;
-    columnContents = new int*[columnLengths[colNum]];
-
-    for (int m=0; m<columnLengths[columnNo]; m++) {
-        columnContents[m] = new int[5];
-    }
-
-    for (int m=0; m<columnLengths[columnNo]; m++) {
-        for (int n=0; n<5; n++) {
-            columnContents[m][n] = -1;
-        }
-    }
-
-}
-
-Column::  //------------------------------------------------------ Destructor of Column
-~Column() {
-    for (int m=0; m<columnLengths[columnNo]; m++) {
-        delete [] columnContents[m];
-    }
-    delete [] columnContents;
-}
-
-
-ostream& Column::   //-------------------------------------------------- print function
+ostream& Column::   //---------------- print function
 print(ostream& out) {
-    out <<columnNo <<" ";
-    out <<cState[(int)columnState] <<" ";
+    out <<columnNo <<" " <<cState[(int)columnState] <<" ";
     
-    for (int m=0; m<columnLengths[columnNo]; m++) {
+    for (int m=0; m<columnLength; m++) {
         for (int n=0; n<5; n++) {
-            int tile = columnContents[m][n];
-            if (tile > -1) {
-                out <<symbols[tile];
-            } else {
-                out <<"_";
-            }
+            if (m == columnContents[n]) out <<symbols[n];
+            else out <<"_";
         }
         out <<"  ";
     }
@@ -56,63 +26,50 @@ print(ostream& out) {
     return out;
 }
 
-bool Column::   //-------------------------------------------------- startTower() function
+bool Column::   //--------------- startTower() function
 startTower(Player* p) {
     int color = (int) p->getColor();
-    bool flag = true;
-
-    for (int m=0; m<columnLengths[columnNo]; m++) {
-        if (color == columnContents[m][color]) {
-            columnContents[m][color] = -1;
-            currentPos = m;
-            flag = true;
-            break;
-        } else if (columnContents[m][0] == 0) {
-            flag = false;
-            break;
-        }
-    }
-
-    return flag;
-}
-
-bool Column::   //------------------------------------------------------- move() function
-move() {
-    bool flag = false;
-    currentPos += 1;
 
     if (columnState == ColumnState::available) {
-        if (currentPos-1 > -1)
-            columnContents[currentPos-1][0] = -1;
-        
-        columnContents[currentPos][0] = 0;
-        // if tower in the last square
-        if (currentPos == columnLengths[columnNo]-1) {  
-             // setting state to pending   
-            columnState = ColumnState::pending;         
+        if (columnContents[color] > -1) {
+            columnContents[0] = columnContents[color];
+            columnContents[color] = -1;
         }
-        flag = true;
-    } 
-    
-    return flag;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-void Column::   //-------------------------------------------------- stop() function
+bool Column::   //----------------- move() function
+move() {
+    if (columnState == ColumnState::available) {
+        if (columnContents[0] > -1) {
+            columnContents[0] += 1;
+        } else {
+            columnContents[0] = 0;
+        }
+
+        if (columnContents[0] == columnLength-1) {  
+            columnState = ColumnState::pending;    
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void Column::   //---------------- stop() function
 stop(Player* p) {
     int color = (int) p->getColor();
-    bool flag = false;
-    int idxPos = -1;
 
-    for (int m=0; m<columnLengths[columnNo]; m++) {
-        if (columnContents[m][0] == 0) {
-            columnContents[m][0] = -1;
-            columnContents[m][color] = color;
-            break;
-        }
-    }
+    if (columnState != ColumnState::captured) {
+        columnContents[color] = columnContents[0];
+        columnContents[0] = -1;
 
-    if (columnState == ColumnState::pending) {
-        columnState = ColumnState::captured;
-        p->wonColumn(columnNo);
+        if (columnState == ColumnState::pending) {
+            columnState = ColumnState::captured;
+            p->wonColumn(columnNo);
+        } 
     }
 }

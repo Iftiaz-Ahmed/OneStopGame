@@ -3,6 +3,7 @@ Program 4 - Game
 Iftiaz Ahmed Alfi and Anwar Haq
 
 22nd Feb, 2023
+Resubmitted: 15th March, 2023
 */ 
 
 #ifndef PLAYER_HPP
@@ -17,11 +18,11 @@ private:
     int score;
     int scoreboard[3];
 public:
-    //------------------------------------------------------------------Constuctors
+    //--------------------------Constuctors
     Player(string n, ECcolor c) : name(n), color(c), score(0) {}
     ~Player() = default;
 
-    //------------------------------------------------------------------Prototypes
+    //--------------------------Prototypes
     ECcolor getColor() { return color; };
     int getScore() { return score; }; 
     bool wonColumn(int colNum);

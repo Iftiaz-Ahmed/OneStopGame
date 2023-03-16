@@ -3,11 +3,12 @@ Program 4 - Game
 Iftiaz Ahmed Alfi and Anwar Haq
 
 22nd Feb, 2023
+Resubmitted: 15th March, 2023
 */ 
 
 #include "player.hpp"
 
-bool Player::   //------------------------------------------------ wonColumn function
+bool Player::   //----------------- wonColumn function
 wonColumn(int colNum) { 
     scoreboard[score] = colNum;
     score++;
@@ -15,7 +16,7 @@ wonColumn(int colNum) {
     return score == 3;
 }
 
-ostream& Player::   //---------------------------------------- --- print function
+ostream& Player::   //------------- print function
 print(ostream& out) {
     out << name <<" " <<words[(int)color] <<" " <<score <<endl;
 

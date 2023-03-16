@@ -3,6 +3,7 @@ Program 4 - Game
 Iftiaz Ahmed Alfi and Anwar Haq
 
 22nd Feb, 2023
+Resubmitted: 15th March, 2023
 */ 
 
 #ifndef COLUMN_HPP
@@ -15,24 +16,21 @@ class Column {
 private:
     static int columnLengths[13];
     int columnNo;
+    int columnLength;
     ColumnState columnState = ColumnState::available;
-    int** columnContents;
-    int currentPos = -1;
+    int columnContents[5] = {-1, -1, -1, -1, -1};
 public:
-    //------------------------------------------------------------------Constuctors
-    Column(int colNum);
-    ~Column();
+    //----------------------------Constuctors
+    Column(int colNum) : columnNo(colNum), columnLength(columnLengths[columnNo]) { }
+    ~Column() = default;
     
-    //------------------------------------------------------------------Prototypes
+    //----------------------------Prototypes
     ColumnState state() { return columnState; };
     bool startTower(Player* player);
     bool move();
     void stop(Player* player);
     void bust() {};
     ostream& print(ostream& out);
-
-    //------------------------------------------------------------------Testing purpose
-    void setState(ColumnState s) { columnState = s; };
 };
 
 inline ostream& operator<< (ostream& out, Column& C) {

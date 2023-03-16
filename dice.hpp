@@ -3,6 +3,7 @@ Program 4 - Game
 Iftiaz Ahmed Alfi and Anwar Haq
 
 22nd Feb, 2023
+Resubmitted: 15th March, 2023
 */ 
 
 #ifndef DICE_HPP
@@ -15,11 +16,11 @@ private:
     int *diceArray;
 
 public:
-    //------------------------------------------------------------------Constuctors
+    //------------------------------------Constuctors
     Dice(int n);
     ~Dice() { delete[] diceArray; };
 
-    //------------------------------------------------------------------Prototypes
+    //------------------------------------Prototypes
     const int *roll();
     ostream& print(ostream& out);
 };
