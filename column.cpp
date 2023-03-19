@@ -1,9 +1,8 @@
 /*
-Program 4 - Game
+Program 5 - Board
 Iftiaz Ahmed Alfi and Anwar Haq
 
-22nd Feb, 2023
-Resubmitted: 15th March, 2023
+18th March, 2023
 */ 
 
 #include "column.hpp"

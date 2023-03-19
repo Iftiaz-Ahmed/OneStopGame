@@ -1,9 +1,8 @@
 /*
-Program 4 - Game
+Program 5 - Board
 Iftiaz Ahmed Alfi and Anwar Haq
 
-22nd Feb, 2023
-Resubmitted: 15th March, 2023
+18th March, 2023
 */ 
 
 #include "game.hpp" 
@@ -63,38 +62,26 @@ getNewPlayer() {
 
 void Game:: //-------------------playGame()
 playGame() {
-    //---------------------------Point 1 & 2
-    cout <<"---------------------DiceSet" <<endl;
-    diceSet->roll();
-    diceSet->print(cout);
+    cout << gameBoard <<endl;
 
-    cout <<"---------------------Player Info" <<endl;
-    cout << player1;
-    cout << player2;
+    gameBoard.startTurn(&player);
+    gameBoard.move(3);
+    gameBoard.move(9);
+    gameBoard.move(2);
+    gameBoard.stop();
 
-    //------------------------------Point 3
-    cout <<"---------------------Column7 startTower()" <<endl;
-    column7.startTower(&player1);
-    column7.move();
-    cout << column7 << endl;
+    gameBoard.startTurn(&player);
+    gameBoard.move(2);
+    gameBoard.move(5);
+    gameBoard.move(4);
+    gameBoard.stop();
 
-    //------------------------------Point 4
-    cout <<"---------------------Column2 startTower()" <<endl;
-    column2.startTower(&player2);
-    column2.move();
-    cout << column2 << endl;
-    column2.move();
-    column2.move();
-    cout <<"---------------------Column2 after 3 move()" <<endl;
-    cout << column2 << endl;
+    gameBoard.startTurn(&player);
+    gameBoard.move(2);
+    gameBoard.move(5);
+    gameBoard.move(4);
+    gameBoard.stop();
 
-    column7.stop(&player1);
-    column2.stop(&player2);
-    cout <<"---------------------Column2 & 7 after stop()" <<endl;
-    cout << column7 << endl;
-    cout << column2 << endl;
-
-    cout <<"---------------------Player Info after capture" <<endl;
-    cout << player1;
-    cout << player2;
+    cout << player;
+    cout <<gameBoard;
 }

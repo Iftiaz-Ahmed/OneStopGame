@@ -1,35 +1,29 @@
+/*
+Program 5 - Board
+Iftiaz Ahmed Alfi and Anwar Haq
+
+18th March, 2023
+*/ 
+
 #include "board.hpp"
 
-Board::  //-----------------------------------------Constructor
+Board::  //------------------------------Constructor
 Board() : towerCounter(0), currentPlayer(nullptr) {
-
     for (int n=0; n<13; n++) {
-        if (n < 2) {
-            backBone[n] = nullptr;
-        } else {
-            backBone[n] = new Column(n);
-        }
+        if (n < 2) backBone[n] = nullptr;
+        else backBone[n] = new Column(n);
     }
 }
 
-Board::  //-----------------------------------------Destructor
-~Board() {
-    for (int n=2; n<13; n++) {
-        delete backBone[n];
-    }
-}
-
-void Board::  //------------------------------------startTurn
+void Board::  //--------------------------startTurn
 startTurn(Player* player) {
     currentPlayer = player;
     towerCounter = 0;
 
-    for (int m=0; m<3; m++) {
-        inUseTowers[m] = 0;
-    }
+    for (int m=0; m<3; m++) inUseTowers[m] = 0;
 }
 
-bool Board::  //------------------------------------move
+bool Board::  //----------------------------move
 move(int column) {
     if (column < 2) return false;
     bool flag = false;
@@ -41,13 +35,11 @@ move(int column) {
         } 
     }
    
-    if ( backBone[column]->state() != ColumnState::available) {
+    if ( backBone[column]->state() != ColumnState::available) 
         return false;
-    }
 
-    if (flag || towerCounter == 3) {
-        return false;
-    } else {
+    if (flag || towerCounter == 3) return false;
+    else {
         towerCounter++;
         inUseTowers[towerCounter-1] = column;
         backBone[column]->startTower(currentPlayer);
@@ -57,29 +49,22 @@ move(int column) {
     }
 }
 
-void Board::  //------------------------------------stop
+void Board::  //----------------------------stop
 stop() {
-    for (int m=0; m<3; m++) {
-        if (inUseTowers[m] > 1) {
+    for (int m=0; m<3; m++) 
+        if (inUseTowers[m] > 1) 
             backBone[inUseTowers[m]]->stop(currentPlayer);
-        }
-    }
 }
 
-void Board::  //------------------------------------bust
+void Board::  //----------------------------bust
 bust() {
-    for (int m=0; m<3; m++) {
-        if (inUseTowers[m] > 1) {
-            backBone[inUseTowers[m]]->bust();
-        }
-    }
+    for (int m=0; m<3; m++)
+        if (inUseTowers[m] > 1) backBone[inUseTowers[m]]->bust();
 }
 
-ostream& Board::  //--------------------------------print
+ostream& Board::  //------------------------print
 print(ostream& out) {
-    for (int m = 2; m<13; m++) {
-        backBone[m]->print(cout);
-    }
+    for (int m = 2; m<13; m++) backBone[m]->print(cout);
 
     return out;
 }

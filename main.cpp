@@ -1,26 +1,27 @@
 /*
-Program 4 - Game
+Program 5 - Board
 Iftiaz Ahmed Alfi and Anwar Haq
 
-22nd Feb, 2023
-Resubmitted: 15th March, 2023
+18th March, 2023
 */ 
 
 #include "tools.hpp"
 #include "game.hpp"
+#include "board.hpp"
+#include "player.hpp"
 
-//---------------------------------------------testGame()
+//-------------------------testGame()
 void testGame(Game obj) {
-    cout <<"------------------------------UNIT TEST START" <<endl;
+    cout <<"--------------------------UNIT TEST START" <<endl;
     obj.playGame();
-    cout <<"------------------------------UNIT TEST END" <<endl;
+    cout <<"--------------------------UNIT TEST END" <<endl;
 }
 
-//--------------------------------------------main()
+//---------------------------main()
 int main() { 
     banner();
 
-    Game gameObj = Game();
+    Game gameObj;
     testGame(gameObj);
 
     bye();

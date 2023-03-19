@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------- 
 #pragma once
 #define NAME    "Iftiaz Ahmed Alfi & Anwar Haq"
-#define CLASS   "P4 - Game Program"
+#define CLASS   "P5 - Board Program"
 
 #include <iostream>
 #include <fstream>
