@@ -1,8 +1,8 @@
 /*
-Program 5 - Board
-Iftiaz Ahmed Alfi and Anwar Haq
+Program 6 - One Turn
+Iftiaz Ahmed Alfi
 
-18th March, 2023
+29th March, 2023
 */ 
 
 #include "board.hpp"
@@ -17,6 +17,7 @@ Board() : towerCounter(0), currentPlayer(nullptr) {
 
 void Board::  //--------------------------startTurn
 startTurn(Player* player) {
+    player->print(cout);
     currentPlayer = player;
     towerCounter = 0;
 
@@ -38,10 +39,12 @@ move(int column) {
     if ( backBone[column]->state() != ColumnState::available) 
         return false;
 
-    if (flag || towerCounter == 3) return false;
+    if (!flag && towerCounter == 3) return false;
     else {
-        towerCounter++;
-        inUseTowers[towerCounter-1] = column;
+        if(!flag) {
+            towerCounter++;
+            inUseTowers[towerCounter-1] = column; 
+        }
         backBone[column]->startTower(currentPlayer);
         backBone[column]->move();
 

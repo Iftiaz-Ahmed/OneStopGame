@@ -1,8 +1,8 @@
 /*
-Program 5 - Board
-Iftiaz Ahmed Alfi and Anwar Haq
+Program 6 - One Turn
+Iftiaz Ahmed Alfi
 
-18th March, 2023
+29th March, 2023
 */ 
 
 #include "player.hpp"

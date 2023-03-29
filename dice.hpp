@@ -1,8 +1,8 @@
 /*
-Program 5 - Board
-Iftiaz Ahmed Alfi and Anwar Haq
+Program 6 - One Turn
+Iftiaz Ahmed Alfi
 
-18th March, 2023
+29th March, 2023
 */ 
 
 #ifndef DICE_HPP
@@ -13,7 +13,7 @@ class Dice {
 private: 
     int nDice;
     int *diceArray;
-
+    array<int, 2> pairSums;
 public:
     //------------------------------------Constuctors
     Dice(int n);
@@ -21,6 +21,8 @@ public:
 
     //------------------------------------Prototypes
     const int *roll();
+    void makePair();
+    array<int, 2> getPairSums();
     ostream& print(ostream& out);
 };
 

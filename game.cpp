@@ -1,8 +1,8 @@
 /*
-Program 5 - Board
-Iftiaz Ahmed Alfi and Anwar Haq
+Program 6 - One Turn
+Iftiaz Ahmed Alfi
 
-18th March, 2023
+29th March, 2023
 */ 
 
 #include "game.hpp" 
@@ -41,7 +41,6 @@ ECcolor validateColor(int* colorsUsed) {
             break;
         }
         else cout <<color <<" not available. Try again!" << endl;
-   
     }
     return acceptedColor;
 }
@@ -60,28 +59,84 @@ getNewPlayer() {
     return Player(name, color);
 }
 
+int menu() { //-------------------menu()
+    int x;
+
+    while(true) {
+        cout <<"\nType:\n1 - Roll Dice\n2 - Stop\n3 - Resign\n: ";
+        cin >> x;
+        if (x > 0 && x < 4) break;
+        else cout <<"Wrong input. Try again!" <<endl;
+    }
+    return x;
+}
+
+char validSelection() { //-------------validSelection()
+    char selected;
+    while(true) {
+        cout <<": ";
+        cin>> selected;
+        selected = tolower(selected);
+        if (selected == 'a' || selected == 'b') break;
+        else cout <<"Wrong input. Try again!" <<endl;
+    }
+    return selected;    
+}
+
+array<char, 2> choosePair(array<int, 2> pairs, 
+map<char, int> options) { //------------choosePair()
+    char selected;
+    array<char, 2> pairOrder;
+    
+    cout <<"Select a pair to play: " <<endl;
+    for(const auto& m : options) 
+        cout <<m.first <<"->" <<pairs[m.second] <<" ";
+    cout <<endl;
+    selected = validSelection();
+
+    if (selected == 'a') {pairOrder[0] = 'a'; pairOrder[1] = 'b';}
+    else {pairOrder[0] = 'b'; pairOrder[1] = 'a';}
+    return pairOrder;
+}
+
+void Game:: //-------------------oneTurn()
+oneTurn(Player* pp) {
+    array<char, 2> pairOrder;
+    gameBoard.startTurn(pp); 
+    while (true) {
+        int menuSelected = menu();
+        if (menuSelected == 1) { 
+            diceSet->roll();
+            diceSet->print(cout);
+            diceSet->makePair();
+            array<int, 2> pairs = diceSet->getPairSums();
+            map<char, int> options = { {'a', 0}, {'b', 1} };
+            pairOrder = choosePair(pairs, options);
+            
+            int failedMove = 0;
+            for(const auto& m : pairOrder)
+                if (gameBoard.move( pairs[options[m]]) == false)
+                    failedMove++;
+            
+            if (failedMove == 2) {
+                gameBoard.bust();
+                break;
+            }
+            cout <<gameBoard;
+        }
+        else if (menuSelected == 2) {
+            gameBoard.stop(); 
+            cout <<gameBoard;
+            break;
+        } 
+    }  
+}
+
 void Game:: //-------------------playGame()
 playGame() {
-    cout << gameBoard <<endl;
+    oneTurn(&player);
 
-    gameBoard.startTurn(&player);
-    gameBoard.move(3);
-    gameBoard.move(9);
-    gameBoard.move(2);
-    gameBoard.stop();
-
-    gameBoard.startTurn(&player);
-    gameBoard.move(2);
-    gameBoard.move(5);
-    gameBoard.move(4);
-    gameBoard.stop();
-
-    gameBoard.startTurn(&player);
-    gameBoard.move(2);
-    gameBoard.move(5);
-    gameBoard.move(4);
-    gameBoard.stop();
-
-    cout << player;
+    cout <<"\n--------------------Final result:" <<endl;
+    cout <<player;
     cout <<gameBoard;
 }

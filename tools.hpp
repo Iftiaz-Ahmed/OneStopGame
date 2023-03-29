@@ -7,8 +7,8 @@
 // Please enter your own system, name, class, and printer stream name.         
 // --------------------------------------------------------------------------- 
 #pragma once
-#define NAME    "Iftiaz Ahmed Alfi & Anwar Haq"
-#define CLASS   "P5 - Board Program"
+#define NAME    "Iftiaz Ahmed Alfi"
+#define CLASS   "P6 - One Turn Program"
 
 #include <iostream>
 #include <fstream>

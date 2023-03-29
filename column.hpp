@@ -1,8 +1,8 @@
 /*
-Program 5 - Board
-Iftiaz Ahmed Alfi and Anwar Haq
+Program 6 - One Turn
+Iftiaz Ahmed Alfi
 
-18th March, 2023
+29th March, 2023
 */ 
 
 #ifndef COLUMN_HPP
@@ -28,7 +28,7 @@ public:
     bool startTower(Player* player);
     bool move();
     void stop(Player* player);
-    void bust() {};
+    void bust() {for (int m=0; m<5; m++) columnContents[m] = -1;};
     ostream& print(ostream& out);
 };
 
