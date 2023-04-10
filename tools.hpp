@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------- 
 #pragma once
 #define NAME    "Iftiaz Ahmed Alfi"
-#define CLASS   "P6 - One Turn Program"
+#define CLASS   "P7 - Player List"
 
 #include <iostream>
 #include <fstream>

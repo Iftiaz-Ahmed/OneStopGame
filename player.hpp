@@ -1,8 +1,8 @@
 /*
-Program 6 - One Turn
+Program 7 - Player List
 Iftiaz Ahmed Alfi
 
-29th March, 2023
+10th April, 2023
 */ 
 
 #ifndef PLAYER_HPP
