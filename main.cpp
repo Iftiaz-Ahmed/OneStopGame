@@ -8,22 +8,20 @@ Iftiaz Ahmed Alfi
 #include "tools.hpp"
 #include "clist.hpp"
 #include "player.hpp"
+#include "game.hpp"
 
 //---------------------------main()
 int main() { 
     banner();
 
-    CList plist;
-
+    CList<Player*> plist;
     plist.init();
-    cout <<"Players: " <<plist.count() <<endl;
-    cout <<"----------------Adding 4 players" <<endl;
-    plist.addCell(new Player("John", ECcolor::blue));
-    plist.addCell(new Player("Alice", ECcolor::green));
+    cout <<"----------------Players: " <<plist.count() <<endl;
+    cout <<"----------------Creating two dummy players" <<endl;
+    plist.addCell(new Player("Alice", ECcolor::blue));
     plist.addCell(new Player("Ifti", ECcolor::orange));
-    plist.addCell(new Player("Jacob", ECcolor::yellow));
     cout <<plist;
-    cout <<"Players: " <<plist.count() <<endl;
+    cout <<"----------------Players: " <<plist.count() <<endl;
     
     cout <<"----------------Removing all players" <<endl;
     int pCount = plist.count();
@@ -31,21 +29,20 @@ int main() {
         plist.remove();
         cout <<"----------------remove() called " <<m+1 <<endl;
         cout <<plist;
-        cout <<"Players: " <<plist.count() <<endl;
+        cout <<"----------------Players: " <<plist.count() <<endl;
     }
     
     cout <<"----------------Adding players again" <<endl;
+    plist.addCell(new Player("Alice", ECcolor::blue));
     plist.addCell(new Player("Ifti", ECcolor::orange));
-    plist.addCell(new Player("Jacob", ECcolor::yellow));
-    plist.addCell(new Player("John", ECcolor::blue));
     cout <<plist;
-    cout <<"Players: " <<plist.count() <<endl;
+    cout <<"----------------Players: " <<plist.count() <<endl;
     
     for (int m=0; m<5; m++) {
         cout <<"----------------Calling next() function" <<endl;
         plist.next();
-        Player currentPlayer = plist.getCurrentPlayer();
-        cout <<"Current player: " <<currentPlayer <<endl;
+        Player* currentPlayer = plist.getItem();
+        cout <<"Current player: " <<*currentPlayer <<endl;
     }
     
     bye();

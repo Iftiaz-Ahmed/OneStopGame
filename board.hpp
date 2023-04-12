@@ -13,12 +13,12 @@ Iftiaz Ahmed Alfi
 
 class Board {
 private:
-	int towerCounter;
-	int inUseTowers[3];
+	int towerCounter = 0;
+	int inUseTowers[3] = {0, 0, 0};
 	Column* backBone[13];
-	Player* currentPlayer;
+	Player* currentPlayer = nullptr;
 
-public:
+public: 
 	//------------------------------Constructors
 	Board();
 	~Board() { for (int n=2; n<13; n++) delete backBone[n]; };

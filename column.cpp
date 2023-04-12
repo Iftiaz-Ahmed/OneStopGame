@@ -11,7 +11,7 @@ int Column::columnLengths[13] = {0, 0, 3, 5, 7, 9, 11, 13, 11, 9, 7, 5, 3};
 
 ostream& Column::   //---------------- print function
 print(ostream& out) {
-    out <<columnNo <<" " <<cState[(int)columnState] <<" ";
+    out<<setw(2) <<columnNo <<setw(10) <<cState[(int)columnState] <<"  ";
     
     for (int m=0; m<columnLength; m++) {
         for (int n=0; n<5; n++) {

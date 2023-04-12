@@ -8,7 +8,7 @@ Iftiaz Ahmed Alfi
 #include "board.hpp"
 
 Board::  //------------------------------Constructor
-Board() : towerCounter(0), currentPlayer(nullptr) {
+Board() {
     for (int n=0; n<13; n++) {
         if (n < 2) backBone[n] = nullptr;
         else backBone[n] = new Column(n);
@@ -20,8 +20,6 @@ startTurn(Player* player) {
     player->print(cout);
     currentPlayer = player;
     towerCounter = 0;
-
-    for (int m=0; m<3; m++) inUseTowers[m] = 0;
 }
 
 bool Board::  //----------------------------move

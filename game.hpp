@@ -14,23 +14,20 @@ Iftiaz Ahmed Alfi
 #include "board.hpp"
 #include "enums.hpp"
 
-using namespace std;
-
 class Game
 {
 private:
-    Dice *diceSet;
-    int colorsUsed[5];
-    Player player;
-    Board gameBoard;
+    Dice* diceSet;
+    bool colorsUsed[5] = {true, false, false, false, false};
+    Player* player = getNewPlayer();
+    Board gameBoard = Board();
 public:
     //------------------------------------------Constuctors
-    Game() : diceSet(new Dice(4)), colorsUsed{1, 0, 0, 0, 0}, 
-             player(getNewPlayer()), gameBoard(Board()) { };
+    Game() : diceSet(new Dice(4)) { };
     ~Game() { delete diceSet; };
 
     //-----------------------------------------Prototypes
-    Player getNewPlayer();
+    Player* getNewPlayer();
     void oneTurn(Player* pp);
 
     //----------------------------------------Testing purpose

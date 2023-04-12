@@ -10,15 +10,13 @@ Iftiaz Ahmed Alfi
 //------------------------------toLowerCase()
 string toLowerCase(string &str) {
     string result;
-    for (char c : str)
-    {
-        result += tolower(c);
-    }
+    for (char c : str) result += tolower(c);
+
     return result;
 }
 
 //------------------------------validateColor()
-ECcolor validateColor(int* colorsUsed) {
+ECcolor validateColor(bool* colorsUsed) {
     string color;
     ECcolor acceptedColor;
     map<string, ECcolor> colorMap{
@@ -28,15 +26,15 @@ ECcolor validateColor(int* colorsUsed) {
         {"green", ECcolor::green},
         {"blue", ECcolor::blue}};
 
-    while (true) {
+    for(;;) {
         cout << "Color: ";
         cin >> color;
         string lowCaseColor = toLowerCase(color);
         int colorInList = colorMap.count(lowCaseColor);
         int index = (int)colorMap[lowCaseColor];
 
-        if (colorInList > 0 && colorsUsed[index] == 0) {
-            colorsUsed[index] = 1;
+        if (colorInList > 0 && colorsUsed[index] == false) {
+            colorsUsed[index] = true;
             acceptedColor = colorMap[lowCaseColor];
             break;
         }
@@ -45,7 +43,7 @@ ECcolor validateColor(int* colorsUsed) {
     return acceptedColor;
 }
 
-Player Game:: //-----------------getNewPlayer()
+Player* Game:: //-----------------getNewPlayer()
 getNewPlayer() {
     string name;
     ECcolor color;
@@ -56,13 +54,13 @@ getNewPlayer() {
     color = validateColor(colorsUsed);
     cout << endl;
 
-    return Player(name, color);
+    return new Player(name, color);
 }
 
 int menu() { //-------------------menu()
     int x;
 
-    while(true) {
+    for(;;) {
         cout <<"\nType:\n1 - Roll Dice\n2 - Stop\n3 - Resign\n: ";
         cin >> x;
         if (x > 0 && x < 4) break;
@@ -73,56 +71,42 @@ int menu() { //-------------------menu()
 
 char validSelection() { //-------------validSelection()
     char selected;
-    while(true) {
+    for(;;) {
         cout <<": ";
         cin>> selected;
         selected = tolower(selected);
-        if (selected == 'a' || selected == 'b') break;
+        if (selected == 'f' || selected == 's') break;
         else cout <<"Wrong input. Try again!" <<endl;
     }
     return selected;    
 }
 
-array<char, 2> choosePair(array<int, 2> pairs, 
-map<char, int> options) { //------------choosePair()
-    char selected;
-    array<char, 2> pairOrder;
+bool rollDice(Board& gameBoard, Dice* diceSet) {
+    diceSet->roll();
+    diceSet->print(cout);
+    diceSet->makePair();
+    array<int, 2> pairs = diceSet->getPairSums();
     
-    cout <<"Select a pair to play: " <<endl;
-    for(const auto& m : options) 
-        cout <<m.first <<"->" <<pairs[m.second] <<" ";
-    cout <<endl;
-    selected = validSelection();
-
-    if (selected == 'a') {pairOrder[0] = 'a'; pairOrder[1] = 'b';}
-    else {pairOrder[0] = 'b'; pairOrder[1] = 'a';}
-    return pairOrder;
+    int failedMove = 0;
+    for(const auto& m : pairs)
+        if (gameBoard.move( m) == false)
+            failedMove++;
+    
+    if (failedMove == 2) {
+        gameBoard.bust();
+        return true;
+    }
+    cout <<gameBoard;
+    return false;
 }
 
 void Game:: //-------------------oneTurn()
 oneTurn(Player* pp) {
-    array<char, 2> pairOrder;
     gameBoard.startTurn(pp); 
-    while (true) {
+    for(;;) {
         int menuSelected = menu();
         if (menuSelected == 1) { 
-            diceSet->roll();
-            diceSet->print(cout);
-            diceSet->makePair();
-            array<int, 2> pairs = diceSet->getPairSums();
-            map<char, int> options = { {'a', 0}, {'b', 1} };
-            pairOrder = choosePair(pairs, options);
-            
-            int failedMove = 0;
-            for(const auto& m : pairOrder)
-                if (gameBoard.move( pairs[options[m]]) == false)
-                    failedMove++;
-            
-            if (failedMove == 2) {
-                gameBoard.bust();
-                break;
-            }
-            cout <<gameBoard;
+            if (rollDice(gameBoard, diceSet)) break;
         }
         else if (menuSelected == 2) {
             gameBoard.stop(); 
@@ -134,7 +118,7 @@ oneTurn(Player* pp) {
 
 void Game:: //-------------------playGame()
 playGame() {
-    oneTurn(&player);
+    oneTurn(player);
 
     cout <<"\n--------------------Final result:" <<endl;
     cout <<player;
