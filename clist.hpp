@@ -1,8 +1,8 @@
 /*
-Program 7 - Player List
+Program 8 - List Template
 Iftiaz Ahmed Alfi
 
-10th April, 2023
+12th April, 2023
 */ 
 
 #ifndef CLIST_HPP
@@ -62,7 +62,7 @@ CList<Item>:: //-------------------------------Destructor
 }
 
 template <class Item>
-void CList<Item>:: //---------------------------addCell()
+void CList<Item>:: //-----------------------addCell()
 addCell(Item it) {
     Cell* newCell = new Cell(it);
     if (empty()) {
@@ -80,7 +80,7 @@ addCell(Item it) {
 }
 
 template <class Item>
-void CList<Item>:: //-----------------------------remove()
+void CList<Item>:: //-------------------------remove()
 remove() {
     Cell* temp = current;
     if (head == current) {

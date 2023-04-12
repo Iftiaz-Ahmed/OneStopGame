@@ -1,9 +1,9 @@
 /*
-Program 7 - Player List
+Program 8 - List Template
 Iftiaz Ahmed Alfi
 
-10th April, 2023
-*/ 
+12th April, 2023
+*/  
 
 #ifndef COLUMN_HPP
 #define COLUMN_HPP
