@@ -1,17 +1,18 @@
 /*
-Program 8 - List Template
+Program 9 - Polymorphic Dice
 Iftiaz Ahmed Alfi
 
-12th April, 2023
+17th April, 2023
 */ 
 
 #include "player.hpp"
 
 bool Player::   //----------------- wonColumn function
 wonColumn(int colNum) { 
-    scoreboard[score] = colNum;
-    score++;
-
+    if (score < 4) {
+        scoreboard[score] = colNum;
+        score++;
+    }
     return score == 3;
 }
 

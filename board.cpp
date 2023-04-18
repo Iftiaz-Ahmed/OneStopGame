@@ -1,8 +1,8 @@
 /*
-Program 8 - List Template
+Program 9 - Polymorphic Dice
 Iftiaz Ahmed Alfi
 
-12th April, 2023
+17th April, 2023
 */ 
 
 #include "board.hpp"
@@ -17,9 +17,9 @@ Board() {
 
 void Board::  //--------------------------startTurn
 startTurn(Player* player) {
-    player->print(cout);
     currentPlayer = player;
     towerCounter = 0;
+    for (int m=0; m<3; m++) inUseTowers[m] = 0;
 }
 
 bool Board::  //----------------------------move
@@ -68,4 +68,15 @@ print(ostream& out) {
     for (int m = 2; m<13; m++) backBone[m]->print(cout);
 
     return out;
+}
+
+void Board::  //------------------------clearBoard()
+clearBoard() {
+    towerCounter = 0;
+    currentPlayer = nullptr;
+    for (int m = 0; m < 3; m++) inUseTowers[m] = 0;
+    for (int m = 2; m < 13; m++) {
+        delete backBone[m];
+        backBone[m] = new Column(m);
+    }
 }

@@ -1,8 +1,8 @@
 /*
-Program 8 - List Template
+Program 9 - Polymorphic Dice
 Iftiaz Ahmed Alfi
 
-12th April, 2023
+17th April, 2023
 */ 
 
 #include "column.hpp"
@@ -21,7 +21,6 @@ print(ostream& out) {
         out <<"  ";
     }
     out <<"\n";
-
     return out;
 }
 
@@ -56,6 +55,12 @@ move() {
     } else {
         return false;
     }
+}
+
+void Column::   //----------------- bust() function
+bust() {
+    columnState = ColumnState::available; 
+    for (int m=0; m<5; m++) columnContents[m] = -1;
 }
 
 void Column::   //---------------- stop() function

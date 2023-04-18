@@ -1,8 +1,8 @@
 /*
-Program 8 - List Template
+Program 9 - Polymorphic Dice
 Iftiaz Ahmed Alfi
 
-12th April, 2023
+17th April, 2023
 */ 
 
 #ifndef PLAYER_HPP

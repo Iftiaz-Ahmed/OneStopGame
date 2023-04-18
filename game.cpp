@@ -1,8 +1,8 @@
 /*
-Program 8 - List Template
+Program 9 - Polymorphic Dice
 Iftiaz Ahmed Alfi
 
-12th April, 2023
+17th April, 2023
 */ 
 
 #include "game.hpp" 
@@ -59,7 +59,6 @@ getNewPlayer() {
 
 int menu() { //-------------------menu()
     int x;
-
     for(;;) {
         cout <<"\nType:\n1 - Roll Dice\n2 - Stop\n3 - Resign\n: ";
         cin >> x;
@@ -81,15 +80,11 @@ char validSelection() { //-------------validSelection()
     return selected;    
 }
 
-bool rollDice(Board& gameBoard, Dice* diceSet) {
-    diceSet->roll();
-    diceSet->print(cout);
-    diceSet->makePair();
-    array<int, 2> pairs = diceSet->getPairSums();
-    
+//-------------------------------------------rollDice()
+bool rollDice(Board& gameBoard, const int* pairs) {
     int failedMove = 0;
-    for(const auto& m : pairs)
-        if (gameBoard.move( m) == false)
+    for(int m=0; m<2; m++)
+        if (gameBoard.move( pairs[m]) == false)
             failedMove++;
     
     if (failedMove == 2) {
@@ -100,27 +95,43 @@ bool rollDice(Board& gameBoard, Dice* diceSet) {
     return false;
 }
 
-void Game:: //-------------------oneTurn()
+void Game:: //-------------------------oneTurn()
 oneTurn(Player* pp) {
+    cout <<"\n" <<*pp;
     gameBoard.startTurn(pp); 
     for(;;) {
         int menuSelected = menu();
         if (menuSelected == 1) { 
-            if (rollDice(gameBoard, diceSet)) break;
-        }
-        else if (menuSelected == 2) {
-            gameBoard.stop(); 
+            if (rollDice(gameBoard, diceSet->roll())) break;
+        } else if (menuSelected == 2) {
+            gameBoard.stop();
             cout <<gameBoard;
             break;
-        } 
+        } else if (menuSelected == 3) { break; }
     }  
 }
 
 void Game:: //-------------------playGame()
 playGame() {
-    oneTurn(player);
-
-    cout <<"\n--------------------Final result:" <<endl;
-    cout <<player;
+    cout <<"\n---------CantStopDice Testing Start" <<endl;
+    playerList.init();
+    oneTurn(playerList.getItem());
+    cout <<"\n---------Final result (CantStopDice Class):" <<endl;
+    cout <<*playerList.getItem();
     cout <<gameBoard;
+    cout <<"\n---------CantStopDice Testing End" <<endl;
+
+    cout <<"\n---------FakeDice Testing Start" <<endl;
+    diceSet = new FakeDice();
+    gameBoard.clearBoard();
+    playerList.init();
+    for(;;) {
+        oneTurn(playerList.getItem());
+        if (playerList.getItem()->getScore() == 3) {
+             cout <<"\n!!! WIN !!!\n" <<*playerList.getItem();
+             break;
+        }
+        playerList.next();
+    }
+    cout <<"\n---------FakeDice Testing End" <<endl;
 }

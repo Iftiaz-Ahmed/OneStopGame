@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------- 
 #pragma once
 #define NAME    "Iftiaz Ahmed Alfi"
-#define CLASS   "P8 - List Template"
+#define CLASS   "P9 - Polymorphic Dice"
 
 #include <iostream>
 #include <fstream>

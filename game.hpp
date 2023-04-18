@@ -1,8 +1,8 @@
 /*
-Program 8 - List Template
+Program 9 - Polymorphic Dice
 Iftiaz Ahmed Alfi
 
-12th April, 2023
+17th April, 2023
 */ 
 
 #ifndef GAME_HPP 
@@ -12,6 +12,7 @@ Iftiaz Ahmed Alfi
 #include "player.hpp"
 #include "column.hpp"
 #include "board.hpp"
+#include "clist.hpp"
 #include "enums.hpp"
 
 class Game
@@ -19,11 +20,12 @@ class Game
 private:
     Dice* diceSet;
     bool colorsUsed[5] = {true, false, false, false, false};
-    Player* player = getNewPlayer();
+    CList<Player*> playerList;
     Board gameBoard = Board();
 public:
     //------------------------------------------Constuctors
-    Game() : diceSet(new Dice(4)) { };
+    Game() : diceSet(new CantStopDice()) { 
+        for (int m=0; m<2; m++) playerList.addCell(getNewPlayer()); };
     ~Game() { delete diceSet; };
 
     //-----------------------------------------Prototypes

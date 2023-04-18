@@ -1,9 +1,9 @@
 /*
-Program 8 - List Template
+Program 9 - Polymorphic Dice
 Iftiaz Ahmed Alfi
 
-12th April, 2023
-*/  
+17th April, 2023
+*/ 
 
 #ifndef COLUMN_HPP
 #define COLUMN_HPP
@@ -28,7 +28,7 @@ public:
     bool startTower(Player* player);
     bool move();
     void stop(Player* player);
-    void bust() {for (int m=0; m<5; m++) columnContents[m] = -1;};
+    void bust(); 
     ostream& print(ostream& out);
 };
 

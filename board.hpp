@@ -1,8 +1,8 @@
 /*
-Program 8 - List Template
+Program 9 - Polymorphic Dice
 Iftiaz Ahmed Alfi
 
-12th April, 2023
+17th April, 2023
 */ 
 
 #ifndef BOARD_HPP
@@ -22,6 +22,7 @@ public:
 	//------------------------------Constructors
 	Board();
 	~Board() { for (int n=2; n<13; n++) delete backBone[n]; };
+
 	//------------------------------Prototypes
 	void startTurn(Player* player);
 	bool move(int column);
@@ -29,6 +30,8 @@ public:
 	void bust();
 	ostream& print(ostream& out);
 	
+	//------------------------------Testing purpose
+	void clearBoard();
 };
 
 inline ostream& operator<< (ostream& out, Board& B) {
