@@ -1,8 +1,8 @@
 /*
-Program 9 - Polymorphic Dice
+Program 10 - Exception
 Iftiaz Ahmed Alfi
 
-17th April, 2023
+29th April, 2023
 */ 
 
 #ifndef GAME_HPP 
@@ -22,6 +22,7 @@ private:
     bool colorsUsed[5] = {true, false, false, false, false};
     CList<Player*> playerList;
     Board gameBoard = Board();
+    bool checkData(char* name, char* color);
 public:
     //------------------------------------------Constuctors
     Game() : diceSet(new CantStopDice()) { 

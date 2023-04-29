@@ -1,8 +1,8 @@
 /*
-Program 9 - Polymorphic Dice
+Program 10 - Exception
 Iftiaz Ahmed Alfi
 
-17th April, 2023
+29th April, 2023
 */ 
 
 #include "tools.hpp"

@@ -1,24 +1,21 @@
 /*
-Program 9 - Polymorphic Dice
+Program 10 - Exception
 Iftiaz Ahmed Alfi
 
-17th April, 2023
+29th April, 2023
 */ 
 
 #include "game.hpp" 
+#include "badPlayer.hpp"
+#include "badChoice.hpp"
 
 //------------------------------toLowerCase()
-string toLowerCase(string &str) {
-    string result;
-    for (char c : str) result += tolower(c);
-
-    return result;
+void toLowerCase(char* str) {
+    for (int m = 0; str[m] != '\0'; m++) str[m] = tolower(str[m]);
 }
 
-//------------------------------validateColor()
-ECcolor validateColor(bool* colorsUsed) {
-    string color;
-    ECcolor acceptedColor;
+//------------------------------convertColor()
+ECcolor convertColor(char* color) {
     map<string, ECcolor> colorMap{
         {"white", ECcolor::white},
         {"orange", ECcolor::orange},
@@ -26,58 +23,72 @@ ECcolor validateColor(bool* colorsUsed) {
         {"green", ECcolor::green},
         {"blue", ECcolor::blue}};
 
-    for(;;) {
-        cout << "Color: ";
-        cin >> color;
-        string lowCaseColor = toLowerCase(color);
-        int colorInList = colorMap.count(lowCaseColor);
-        int index = (int)colorMap[lowCaseColor];
+    toLowerCase(color);
+    return colorMap[color];   
+}
 
-        if (colorInList > 0 && colorsUsed[index] == false) {
-            colorsUsed[index] = true;
-            acceptedColor = colorMap[lowCaseColor];
-            break;
+//------------------------------validateColor()
+bool validateColor(char* color, bool* colorsUsed) {
+    map<string, ECcolor> colorMap{
+        {"white", ECcolor::white},
+        {"orange", ECcolor::orange},
+        {"yellow", ECcolor::yellow},
+        {"green", ECcolor::green},
+        {"blue", ECcolor::blue}};
+    
+    toLowerCase(color);
+    int colorInList = colorMap.count(color);
+    int index = (int)colorMap[color];
+
+    if (colorInList > 0 && colorsUsed[index] == false) {
+        colorsUsed[index] = true;
+        return true;
+    } else return false;
+}
+
+bool Game:://------------------------------checkData()
+checkData(char* name, char* color) {
+    try {
+        for (int m=0; m<playerList.count(); m++) {
+            Player* player = playerList.getItem();
+            if (name == player->getName()) 
+                throw BadName(name, color);
+            playerList.next(); 
         }
-        else cout <<color <<" not available. Try again!" << endl;
+        if (!validateColor(color, colorsUsed))
+            throw BadColor(name, color);
+        return true;
+    } catch (BadPlayer& bp) { 
+        bp.basePrint(); 
+        return false;
+    } catch (...) {
+        fatal("Error: Unable to validate name and color. Aborting.");
+        return false;
     }
-    return acceptedColor;
 }
 
 Player* Game:: //-----------------getNewPlayer()
 getNewPlayer() {
-    string name;
-    ECcolor color;
- 
-    cout << "Enter player information: " << endl; 
-    cout << "Name: ";
-    cin >> name;
-    color = validateColor(colorsUsed);
-    cout << endl;
-
-    return new Player(name, color);
+    char* name = new char[50];
+    char* color = new char[50];
+    for (;;) {
+        cout << "Enter player information: " << endl; 
+        cout <<"Name: ";  cin >> name;
+        cout <<"Color: "; cin >> color;
+        cout << endl;
+        if (checkData(name, color)) break;
+    }
+    Player* player = new Player(name, convertColor(color));
+    delete[] name; 
+    delete[] color;
+    return player;
 }
 
 int menu() { //-------------------menu()
     int x;
-    for(;;) {
-        cout <<"\nType:\n1 - Roll Dice\n2 - Stop\n3 - Resign\n: ";
-        cin >> x;
-        if (x > 0 && x < 4) break;
-        else cout <<"Wrong input. Try again!" <<endl;
-    }
+    cout <<"\nType:\n1 - Roll Dice\n2 - Stop\n3 - Resign\n: ";
+    cin >> x;
     return x;
-}
-
-char validSelection() { //-------------validSelection()
-    char selected;
-    for(;;) {
-        cout <<": ";
-        cin>> selected;
-        selected = tolower(selected);
-        if (selected == 'f' || selected == 's') break;
-        else cout <<"Wrong input. Try again!" <<endl;
-    }
-    return selected;    
 }
 
 //-------------------------------------------rollDice()
@@ -98,40 +109,31 @@ bool rollDice(Board& gameBoard, const int* pairs) {
 void Game:: //-------------------------oneTurn()
 oneTurn(Player* pp) {
     cout <<"\n" <<*pp;
-    gameBoard.startTurn(pp); 
+    gameBoard.startTurn(pp);  
     for(;;) {
-        int menuSelected = menu();
-        if (menuSelected == 1) { 
-            if (rollDice(gameBoard, diceSet->roll())) break;
-        } else if (menuSelected == 2) {
-            gameBoard.stop();
-            cout <<gameBoard;
-            break;
-        } else if (menuSelected == 3) { break; }
-    }  
+        try {
+            int menuSelected = menu();
+            if (menuSelected == 1) { 
+                if (rollDice(gameBoard, diceSet->roll())) break;
+            } else if (menuSelected == 2) {
+                gameBoard.stop();
+                cout <<gameBoard;
+                break;
+            } else if (menuSelected == 3) { break; }
+            else throw BadChoice((char*) menuSelected);
+        } 
+        catch (BadChoice& bc) { bc.print(); }   
+        catch (...) { fatal("Unknown error occurred!"); }
+    }
 }
 
 void Game:: //-------------------playGame()
 playGame() {
-    cout <<"\n---------CantStopDice Testing Start" <<endl;
+    cout <<"\n---------FakeDice Testing Start" <<endl;
     playerList.init();
     oneTurn(playerList.getItem());
-    cout <<"\n---------Final result (CantStopDice Class):" <<endl;
+    cout <<"\n---------Final result:" <<endl;
     cout <<*playerList.getItem();
     cout <<gameBoard;
-    cout <<"\n---------CantStopDice Testing End" <<endl;
-
-    cout <<"\n---------FakeDice Testing Start" <<endl;
-    diceSet = new FakeDice();
-    gameBoard.clearBoard();
-    playerList.init();
-    for(;;) {
-        oneTurn(playerList.getItem());
-        if (playerList.getItem()->getScore() == 3) {
-             cout <<"\n!!! WIN !!!\n" <<*playerList.getItem();
-             break;
-        }
-        playerList.next();
-    }
     cout <<"\n---------FakeDice Testing End" <<endl;
 }

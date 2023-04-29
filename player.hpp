@@ -1,8 +1,8 @@
 /*
-Program 9 - Polymorphic Dice
+Program 10 - Exception
 Iftiaz Ahmed Alfi
 
-17th April, 2023
+29th April, 2023
 */ 
 
 #ifndef PLAYER_HPP
@@ -22,6 +22,7 @@ public:
     ~Player() = default;
 
     //--------------------------Prototypes
+    string getName() { return name; };
     ECcolor getColor() { return color; };
     int getScore() { return score; }; 
     bool wonColumn(int colNum);

@@ -1,11 +1,12 @@
 /*
-Program 9 - Polymorphic Dice
+Program 10 - Exception
 Iftiaz Ahmed Alfi
 
-17th April, 2023
+29th April, 2023
 */ 
 
 #include "dice.hpp"
+#include "badChoice.hpp"
 
 Dice::  //----------------------------Constructor
 Dice(int n) {
@@ -21,7 +22,6 @@ Dice(int n) {
     srand(time(NULL));
 }
 
-
 const int* Dice::  //---------------------Dice roll() 
 roll() {
     for (int m = 0; m < nDice; m++) diceArray[m] = 1 + rand() % 6;
@@ -36,20 +36,30 @@ struct IndexPair {
 
   //-------------------------validatePair()
 IndexPair validatePair(const int* diceArray) {
-    char a, b;
+    IndexPair values = {};
     map<char, int> options = {{'a', 0}, {'b', 1}, {'c', 2}, 
         {'d', 3}};
     for(const auto& m : options) 
         cout <<m.first <<"->" <<diceArray[m.second] <<" ";
-    for(;;) {
-        cout <<endl <<": "; cin >> a >> b;
-        if (a == b)  
-            cout <<"Both letters cannot be same. Try again!";
-        else if ( options.find(a) == options.end() || options.find(b) == options.end() )
-            cout <<"Wrong letter picked. Try again!";
-        else break;
+    cin.ignore(); 
+    char* choice = new char[20];
+    for (;;) {
+        try {
+            cout <<"\n: ";
+            cin.getline(choice, 20);    
+
+            for (int m = 0; m < strlen(choice); m++) {
+                if (strchr("abcd ", choice[m]) == NULL) throw BadSlot(choice);
+                else if (choice[m] != ' ') {
+                    if (m==0) values.a = options[choice[m]];
+                    else values.b = options[choice[m]];
+                }
+            }
+            if (values.a == values.b) throw DuplicateSlot(choice);
+            else break;
+        } catch (BadChoice& bc) { bc.print(); }
     }
-    IndexPair values = {options[a], options[b]};
+    delete[] choice;
     return values;
 }
 
@@ -89,6 +99,7 @@ roll() {
     string line;
     if (getline(diceFile, line)) {
         stringstream ss(line);
+        cout <<line <<endl;
         int first, second, third, fourth;
         ss >> first >> second >> third >> fourth;
         rollPairs[0] = first + second;
