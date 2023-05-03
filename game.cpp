@@ -1,8 +1,8 @@
 /*
-Program 10 - Exception
+Program 11 - A Whole Game
 Iftiaz Ahmed Alfi
 
-29th April, 2023
+3rd May, 2023
 */ 
 
 #include "game.hpp" 
@@ -84,9 +84,24 @@ getNewPlayer() {
     return player;
 }
 
+void Game:: //-----------------setPlayers()
+setPlayers() {
+    int n = 0;
+    for (;;) {
+        cout <<"Enter the number of players: ";
+        cin >> n;
+        if (n<2 || n>4) cout <<"Player no. can't be less than 2 or more than 4" <<endl;
+        else break;
+    }
+    for (int m=0; m<n; m++) {
+        cout <<"Player: " <<m+1 <<endl;
+        playerList.addCell(getNewPlayer());
+    }
+}
+
 int menu() { //-------------------menu()
     int x;
-    cout <<"\nType:\n1 - Roll Dice\n2 - Stop\n3 - Resign\n: ";
+    cout <<"\nType:\n1 - Roll Dice\n2 - Stop\n3 - Resign\n4 - Exit\n: ";
     cin >> x;
     return x;
 }
@@ -114,26 +129,38 @@ oneTurn(Player* pp) {
         try {
             int menuSelected = menu();
             if (menuSelected == 1) { 
-                if (rollDice(gameBoard, diceSet->roll())) break;
+                dicePairs = diceSet->roll();
+                if (rollDice(gameBoard, dicePairs)) break;
             } else if (menuSelected == 2) {
                 gameBoard.stop();
-                cout <<gameBoard;
                 break;
-            } else if (menuSelected == 3) { break; }
-            else throw BadChoice((char*) menuSelected);
-        } 
-        catch (BadChoice& bc) { bc.print(); }   
+            } else if (menuSelected == 3) {
+                cout <<pp->getName() <<" resigned!" <<endl;
+                gameBoard.bust(); 
+                playerList.remove();
+                break; 
+            } else if (menuSelected == 4) {
+                gameState = GameState::quit;
+                cout <<"You quit the game!" <<endl;
+                break;
+            } else throw BadChoice((char*) menuSelected);
+        } catch (BadChoice& bc) { bc.print(); }   
         catch (...) { fatal("Unknown error occurred!"); }
     }
 }
 
-void Game:: //-------------------playGame()
-playGame() {
-    cout <<"\n---------FakeDice Testing Start" <<endl;
+void Game:: //-------------------play()
+play() {
     playerList.init();
-    oneTurn(playerList.getItem());
-    cout <<"\n---------Final result:" <<endl;
-    cout <<*playerList.getItem();
-    cout <<gameBoard;
-    cout <<"\n---------FakeDice Testing End" <<endl;
+    for (;;) {
+        if (gameState != GameState::begun || playerList.empty()) break;
+        Player* pp = playerList.getItem();
+        oneTurn(pp);
+        cout <<"\n" <<gameBoard;
+        if (pp->getScore() == 3) {
+            gameState = GameState::done;
+            cout <<"\n!!! WIN !!!\n" <<*playerList.getItem();
+            break;
+        } else { playerList.next(); }  
+    }
 }

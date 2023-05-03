@@ -1,8 +1,8 @@
 /*
-Program 10 - Exception
+Program 11 - A Whole Game
 Iftiaz Ahmed Alfi
 
-29th April, 2023
+3rd May, 2023
 */ 
 
 #include "tools.hpp"
@@ -12,7 +12,13 @@ Iftiaz Ahmed Alfi
 //---------------------------main()
 int main() { 
     banner();
+    /*
+    To play the real game change 'diceSet(new FakeDice())' in game.hpp
+    to 'diceSet(new CantStopDice())'
+    */
+
     Game gameObj = Game();
-    gameObj.playGame();
+    gameObj.play();
+
     bye();
 }

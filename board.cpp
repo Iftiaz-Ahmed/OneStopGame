@@ -1,8 +1,8 @@
 /*
-Program 10 - Exception
+Program 11 - A Whole Game
 Iftiaz Ahmed Alfi
 
-29th April, 2023
+3rd May, 2023
 */ 
 
 #include "board.hpp"
@@ -61,6 +61,7 @@ void Board::  //----------------------------bust
 bust() {
     for (int m=0; m<3; m++)
         if (inUseTowers[m] > 1) backBone[inUseTowers[m]]->bust();
+    towerCounter = 0;
 }
 
 ostream& Board::  //------------------------print

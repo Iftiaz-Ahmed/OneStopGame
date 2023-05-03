@@ -1,8 +1,8 @@
 /*
-Program 10 - Exception
+Program 11 - A Whole Game
 Iftiaz Ahmed Alfi
 
-29th April, 2023
+3rd May, 2023
 */ 
 
 #pragma once
@@ -15,7 +15,7 @@ public:
     virtual ~BadChoice()=default;
     virtual void print() {
         cerr <<" Bad choice has been made.\n"
-        << " Choose whether to ROLL, STOP or QUIT\n";
+        << " Choose whether to ROLL, STOP, RESIGN or QUIT\n";
     }
     void pr() {
         cerr <<" You entered " <<choice

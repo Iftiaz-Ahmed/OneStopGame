@@ -1,8 +1,8 @@
 /*
-Program 10 - Exception
+Program 11 - A Whole Game
 Iftiaz Ahmed Alfi
 
-29th April, 2023
+3rd May, 2023
 */ 
 
 #include "dice.hpp"

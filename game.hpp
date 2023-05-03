@@ -1,8 +1,8 @@
 /*
-Program 10 - Exception
+Program 11 - A Whole Game
 Iftiaz Ahmed Alfi
 
-29th April, 2023
+3rd May, 2023
 */ 
 
 #ifndef GAME_HPP 
@@ -15,26 +15,25 @@ Iftiaz Ahmed Alfi
 #include "clist.hpp"
 #include "enums.hpp"
 
-class Game
-{
+class Game {
 private:
     Dice* diceSet;
     bool colorsUsed[5] = {true, false, false, false, false};
     CList<Player*> playerList;
     Board gameBoard = Board();
+    GameState gameState;
+    const int* dicePairs;
     bool checkData(char* name, char* color);
+    void setPlayers();
 public:
     //------------------------------------------Constuctors
-    Game() : diceSet(new CantStopDice()) { 
-        for (int m=0; m<2; m++) playerList.addCell(getNewPlayer()); };
+    Game() : diceSet(new FakeDice()), gameState(GameState::begun) { setPlayers(); };
     ~Game() { delete diceSet; };
 
     //-----------------------------------------Prototypes
     Player* getNewPlayer();
     void oneTurn(Player* pp);
-
-    //----------------------------------------Testing purpose
-    void playGame();
+    void play();
 };
 
 #endif
