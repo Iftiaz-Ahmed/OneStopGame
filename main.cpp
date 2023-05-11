@@ -19,6 +19,5 @@ int main() {
 
     Game gameObj = Game();
     gameObj.play();
-
     bye();
 }

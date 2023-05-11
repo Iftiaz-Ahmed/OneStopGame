@@ -18,7 +18,6 @@ Iftiaz Ahmed Alfi
 class Game {
 private:
     Dice* diceSet;
-    bool colorsUsed[5] = {true, false, false, false, false};
     CList<Player*> playerList;
     Board gameBoard = Board();
     GameState gameState;
@@ -35,5 +34,6 @@ public:
     void oneTurn(Player* pp);
     void play();
 };
+
 
 #endif

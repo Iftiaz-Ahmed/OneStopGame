@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------- 
 #pragma once
 #define NAME    "Iftiaz Ahmed Alfi"
-#define CLASS   "P11 - A Whole Game"
+#define CLASS   "P13 - Documentation"
 
 #include <iostream>
 #include <fstream>

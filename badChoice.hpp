@@ -10,8 +10,9 @@ Iftiaz Ahmed Alfi
 
 class BadChoice {
 public:
-    char* choice;
+    const char* choice;
     BadChoice(char* c) : choice(c) {};
+    BadChoice(int c) : choice(to_string(c).c_str()) {};
     virtual ~BadChoice()=default;
     virtual void print() {
         cerr <<" Bad choice has been made.\n"

@@ -23,7 +23,7 @@ startTurn(Player* player) {
 }
 
 bool Board::  //----------------------------move
-move(int column) {
+move(const int column) {
     if (column < 2) return false;
     bool flag = false;
 

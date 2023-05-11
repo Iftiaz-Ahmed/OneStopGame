@@ -42,25 +42,22 @@ startTower(Player* p) {
 bool Column::   //----------------- move() function
 move() {
     if (columnState == ColumnState::available) {
-        if (columnContents[0] > -1) {
-            columnContents[0] += 1;
-        } else {
-            columnContents[0] = 0;
-        }
-
-        if (columnContents[0] == columnLength-1) {  
+        if (columnContents[0] > -1) columnContents[0] += 1;
+        else columnContents[0] = 0;
+        
+        if (columnContents[0] == columnLength-1) 
             columnState = ColumnState::pending;    
-        }
+        
         return true;
-    } else {
-        return false;
-    }
+    } 
+    else return false;
 }
 
 void Column::   //----------------- bust() function
 bust() {
-    columnState = ColumnState::available; 
-    for (int m=0; m<5; m++) columnContents[m] = -1;
+    if (columnState == ColumnState::pending)
+        columnState = ColumnState::available; 
+    columnContents[0] = -1;
 }
 
 void Column::   //---------------- stop() function

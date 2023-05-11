@@ -25,7 +25,7 @@ public:
 
 	//------------------------------Prototypes
 	void startTurn(Player* player);
-	bool move(int column);
+	bool move(const int column);
 	void stop();
 	void bust();
 	ostream& print(ostream& out);

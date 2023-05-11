@@ -21,7 +21,7 @@ private:
         Cell* prev;
         // ---------------------------------Constructors 
         Cell(Item i) : item(i), next(nullptr), prev(nullptr) { };
-        ~Cell() { delete item; };
+        ~Cell() = default;
     };
     int cellCount;
     Cell* head;
@@ -51,14 +51,21 @@ inline ostream& operator<< (ostream& out, CList<Item>& C) {
 //--------------------------------------Function Definitions
 
 template <class Item>
-CList<Item>:: //-------------------------------Destructor
+CList<Item>:: //----------------------Destructor
 ~CList() {
-    Cell* temp = head;
-    while (temp != nullptr) {
-        Cell* next = temp->next;
-        delete temp;
-        temp = next;
+    if (head != nullptr) {
+        Cell* current = head;
+        Cell* next = nullptr;
+        
+        do {
+            next = current->next;
+            delete current->item;
+            delete current;
+            current = next;
+        } while (current != head);
     }
+    head = nullptr;
+    tail = nullptr;
 }
 
 template <class Item>
@@ -68,6 +75,7 @@ addCell(Item it) {
     if (empty()) {
         head = newCell;
         tail = newCell;
+        newCell->next = head;
         current = newCell;
     } else {
         current->next = newCell;
@@ -82,17 +90,22 @@ addCell(Item it) {
 template <class Item>
 void CList<Item>:: //-------------------------remove()
 remove() {
-    Cell* temp = current;
-    if (head == current) {
-        current = current->next;
-        head = current;
-        tail->next = head;
-    } else {
-        temp->prev->next = current->next;
-        current = temp->next;
+    if (cellCount != 0) {
+        Cell* cellToRemove = current;
+        Player* playerToRemove = current->item;
+
+        if (head == current) {
+            current = current->next;
+            head = current;
+            tail->next = head;
+        } else {
+            current = current->next;
+            cellToRemove->prev->next = current;
+        }
+        delete playerToRemove;
+        delete cellToRemove;
+        cellCount--;
     }
-    delete temp;
-    cellCount--;
 }
 
 template <class Item>
