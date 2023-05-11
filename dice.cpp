@@ -1,8 +1,8 @@
 /*
-Program 11 - A Whole Game
+Program 13
 Iftiaz Ahmed Alfi
 
-3rd May, 2023
+11th May, 2023
 */ 
 
 #include "dice.hpp"
